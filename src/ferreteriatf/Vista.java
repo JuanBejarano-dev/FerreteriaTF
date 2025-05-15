@@ -34,6 +34,7 @@ public class Vista extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        btnMostrar = new javax.swing.JButton();
 
         jPanel3.setBackground(new java.awt.Color(0, 153, 153));
 
@@ -80,23 +81,30 @@ public class Vista extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Ingrese el ID");
 
+        btnMostrar.setText("Mostrar Agregados");
+        btnMostrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(110, 110, 110)
-                        .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(128, 128, 128)
                 .addComponent(jLabel2)
                 .addGap(40, 40, 40)
                 .addComponent(jLabel3)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(110, 110, 110)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnMostrar, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,9 +115,11 @@ public class Vista extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addGap(28, 28, 28)
                 .addComponent(btnRegistrar)
-                .addGap(34, 34, 34)
+                .addGap(18, 18, 18)
                 .addComponent(btnSalir)
-                .addGap(49, 49, 49))
+                .addGap(18, 18, 18)
+                .addComponent(btnMostrar)
+                .addGap(23, 23, 23))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -147,14 +157,31 @@ public class Vista extends javax.swing.JFrame {
                     "3.Salir"));
             
         switch(opc)
-        {
-            case 1: 
-                String Productos =JOptionPane.showInputDialog("Ingrese el Nombre del Producto:\n ");
+        {        
+        
+            case 1:   
+                String Productos;
+                
+                Productos =JOptionPane.showInputDialog("Ingrese el Nombre del Producto:\n ");  
+                if (Productos != null && !Productos.trim().isEmpty()) {
+                 
+                } else {
+                    JOptionPane.showMessageDialog(null, "No puede estar la casilla vacia");           
+        }
+          
+            
                 String IdProductos =JOptionPane.showInputDialog("Ingrese el Id del Producto: ");
-                Productos p = new Productos(Productos, IdProductos);
+
+                if (IdProductos != null && !IdProductos.trim().isEmpty()) {
+            
+        } else {
+                    JOptionPane.showMessageDialog(null, "No puede estar la casilla vacia");
+            
+        }
+                Productos p = new Productos(Productos, IdProductos);               
                 A.RegistrarProducto(p);
                 break;
-                
+                       
             case 2:
                 A.MostrarProducto();
                 break;
@@ -164,7 +191,7 @@ public class Vista extends javax.swing.JFrame {
                  
 
             default: JOptionPane.showMessageDialog(null, "Opcion no valida, Digite un numero del 1-3");
-            break;
+            break;           
         }
        
         }while(opc!=3);
@@ -177,6 +204,34 @@ public class Vista extends javax.swing.JFrame {
         System.exit(0);
     
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
+    
+        int opcion = 0; 
+        
+        do{
+            
+            opcion = Integer.parseInt(JOptionPane.showInputDialog("1.Mostrar Datos Guardados\n"+
+                    "2.Salir"));
+            
+        switch(opcion){
+            
+            case 1: JOptionPane.showMessageDialog(null, "Nombre Producto: ");
+                A.MostrarProducto();
+            break;
+            
+            case 2: 
+                exit(0);
+                
+            default: JOptionPane.showMessageDialog(null, "Opcion no valida, Digite un numero del 1-2");
+            break;
+            
+        }
+
+        
+        }while(opcion!=2);
+              
+    }//GEN-LAST:event_btnMostrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -214,6 +269,7 @@ public class Vista extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnMostrar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;

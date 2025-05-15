@@ -12,7 +12,7 @@ public class ArchivoStock {
     
     public void RegistrarProducto(Productos nuevo){
         try{
-        File f = new File("Prueba1.txt");
+        File f = new File("Pruebadato2.txt");
             
         FileWriter fw;//escribir en el archivo
         BufferedWriter bw;//optimizacion
@@ -46,7 +46,7 @@ public class ArchivoStock {
     public void MostrarProducto(){
        try
        {
-        File f = new File("Prueba1.txt");
+        File f = new File("Pruebadato2.txt");
         
          if(f.exists())
          {
