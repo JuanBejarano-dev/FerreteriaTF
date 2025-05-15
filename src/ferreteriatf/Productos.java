@@ -10,7 +10,7 @@ public class Productos {
 
     public Productos(String Producto, String IdProducto) {
         this.Producto = Producto;
-        this.IdProducto = IdProducto;
+        this.IdProducto = IdProducto;       
     }
     
     public void MostrarProducto(){
