@@ -1,0 +1,2 @@
+perro 1000 
+null null 
