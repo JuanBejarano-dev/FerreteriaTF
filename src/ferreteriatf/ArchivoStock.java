@@ -8,7 +8,7 @@ public class ArchivoStock {
     
     public void RegistrarProducto(Productos nuevo){
         try{
-        File f = new File("Pruebadato2.txt");
+        File f = new File("Pruebadato3.txt");
             
         FileWriter fw;//escribir en el archivo
         BufferedWriter bw;//optimizacion
@@ -42,7 +42,7 @@ public class ArchivoStock {
     public void MostrarProducto(){
        try
        {
-        File f = new File("Pruebadato2.txt");
+        File f = new File("Pruebadato3.txt");
         
          if(f.exists())
          {
@@ -66,5 +66,36 @@ public class ArchivoStock {
           JOptionPane.showMessageDialog(null,"Error en lectura del Archivo");
           }
         }   
+      
+    public void EliminarProducto(String producto, String idProducto) {
+        
+    File archivo = new File("Pruebadato3.txt");
+    StringBuilder contenidoNuevo = new StringBuilder();
+
+    try {
+        
+        BufferedReader reader = new BufferedReader(new FileReader(archivo));
+        String linea;
+        
+        while ((linea = reader.readLine()) != null) {
+            
+            if (!linea.trim().equals(producto + " " + idProducto)) {
+                
+                contenidoNuevo.append(linea).append(System.lineSeparator());
+            }
+        }
+        reader.close();
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(archivo));
+        writer.write(contenidoNuevo.toString());
+        writer.close();
+
+        } catch (Exception e) {
+            
+        JOptionPane.showMessageDialog(null, "Error al eliminar el producto del archivo.");
+      }
+    
+    }
+
     
 }

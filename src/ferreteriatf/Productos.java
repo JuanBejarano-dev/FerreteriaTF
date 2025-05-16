@@ -18,4 +18,11 @@ public class Productos {
      JOptionPane.showMessageDialog(null,"Id:\n"+ IdProducto);
      
     }
+    
+    
+    
+    
+    
+    
+    
 }
