@@ -1,1 +1,3 @@
 tornillo 100
+
+auto 100 5 

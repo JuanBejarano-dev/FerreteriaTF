@@ -8,7 +8,7 @@ public class ArchivoStock {
     
     public void RegistrarProducto(Productos nuevo){
         try{
-        File f = new File("Pruebadato10.txt");
+        File f = new File("Pruebadato11.txt");
             
         FileWriter fw;//escribir en el archivo
         BufferedWriter bw;//optimizacion
@@ -19,13 +19,13 @@ public class ArchivoStock {
          bw=new BufferedWriter(fw);
          bw.newLine();
          
-         bw.write(nuevo.Producto+" "+nuevo.IdProducto+" ");
+         bw.write(nuevo.Producto+" "+nuevo.IdProducto+" "+nuevo.Cantidad+" ");
          }
         else
          {
           fw =new FileWriter(f);
           bw=new BufferedWriter(fw);
-          bw.write(nuevo.Producto+" "+nuevo.IdProducto+" ");
+          bw.write(nuevo.Producto+" "+nuevo.IdProducto+" "+nuevo.Cantidad+" ");
         
          }
         bw.close();
@@ -42,7 +42,7 @@ public class ArchivoStock {
     public void MostrarProducto(){
        try
        {
-        File f = new File("Pruebadato10.txt");
+        File f = new File("Pruebadato11.txt");
         
          if(f.exists())
          {
@@ -53,7 +53,7 @@ public class ArchivoStock {
           while((linea=br.readLine())!=null)
            {
             String []contacto=linea.split(" ");
-            Productos p =new Productos(contacto[0],contacto[1]);
+            Productos p =new Productos(contacto[0],contacto[1],contacto[2]);
             p.MostrarProducto();
            }
          }
@@ -67,9 +67,9 @@ public class ArchivoStock {
           }
         }   
       
-    public void EliminarProducto(String productoEliminar, String idEliminar) {
+    public void EliminarProducto(String productoEliminar, String idEliminar, String cantidadEliminar) {
         
-    File archivoOriginal = new File("Pruebadato10.txt");
+    File archivoOriginal = new File("Pruebadato11.txt");
     File archivoTemporal = new File("temp.txt");
     
     try (
@@ -82,10 +82,11 @@ public class ArchivoStock {
             if (partes.length >= 2) {
                 String producto = partes[0];
                 String id = partes[1];
+                String cantidad = partes[2];
                 
                 // Si no es el que queremos eliminar, lo escribimos en el archivo temporal
-                if (!producto.equals(productoEliminar) || !id.equals(idEliminar)) {
-                    bw.write(producto + " " + id);
+                if (!producto.equals(productoEliminar) || !id.equals(idEliminar) || !cantidad.equals(cantidadEliminar)) {
+                    bw.write(producto + " " + id+ " " + cantidad+ " ");
                     bw.newLine();
                 }
             }
