@@ -1,6 +1,9 @@
 
 package ferreteriatf;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -16,6 +19,8 @@ public class TablaProductos extends javax.swing.JFrame {
         String[] titulo = new String[]{"Prodcuto", "ID"};
         dtm.setColumnIdentifiers(titulo);
         jTable1.setModel(dtm);
+        
+        cargarDatosArchivo();
         
     }
     void agregar(){
@@ -46,10 +51,35 @@ public class TablaProductos extends javax.swing.JFrame {
             dtm.removeRow(0); 
         }
         
-       
+    }
     
+    void cargarDatosArchivo() {
+    File archivo = new File("Pruebadato10.txt");
+
+    if (archivo.exists()) {
+        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+            
+            String linea;
+
+            while ((linea = br.readLine()) != null) {
+                
+                String[] partes = linea.split(" ");
+                if (partes.length >= 2) {
+                    String producto = partes[0];
+                    String id = partes[1];
+                    dtm.addRow(new Object[]{producto, id});
+                    
+                }
+                
+            }
+        } catch (Exception e) {
+            
+            JOptionPane.showMessageDialog(this, "Error al cargar datos del archivo");
+        }
         
     }
+    
+}
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -57,8 +87,6 @@ public class TablaProductos extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         btnEliminar = new javax.swing.JButton();
-        btnActualizar = new javax.swing.JButton();
-        btnLimpiar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -80,20 +108,6 @@ public class TablaProductos extends javax.swing.JFrame {
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
-            }
-        });
-
-        btnActualizar.setText("Actualizar");
-        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarActionPerformed(evt);
-            }
-        });
-
-        btnLimpiar.setText("Limpiar");
-        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLimpiarActionPerformed(evt);
             }
         });
 
@@ -130,16 +144,12 @@ public class TablaProductos extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(54, 54, 54)
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(491, 491, 491))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
@@ -165,10 +175,8 @@ public class TablaProductos extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEliminar)
-                    .addComponent(btnActualizar)
-                    .addComponent(btnLimpiar)
-                    .addComponent(btnGuardar))
+                    .addComponent(btnGuardar)
+                    .addComponent(btnEliminar))
                 .addGap(62, 62, 62))
         );
 
@@ -188,20 +196,21 @@ public class TablaProductos extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
        
+        int fila = jTable1.getSelectedRow();
+    if (fila >= 0) {
+        String producto = (String) dtm.getValueAt(fila, 0);
+        String id = (String) dtm.getValueAt(fila, 1);
         
+        eliminar(); // elimina de la tabla visual
+
+        // Eliminar del archivo txt
+        ArchivoStock archivo = new ArchivoStock();
+        archivo.EliminarProducto(producto, id);
+        } else {
+        JOptionPane.showMessageDialog(this, "Selecciona una fila para eliminar");
+      }
+    
     }//GEN-LAST:event_btnEliminarActionPerformed
-
-    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        
-        actualizar();
-        
-    }//GEN-LAST:event_btnActualizarActionPerformed
-
-    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        
-        
-        
-    }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
@@ -220,29 +229,7 @@ public class TablaProductos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
-            
-        int fila = jTable1.getSelectedRow();
-            
-        if (fila >= 0) {
-            
-        // Obtener los datos antes de eliminar
-        
-        String producto = jTable1.getValueAt(fila, 0).toString();
-        String id = jTable1.getValueAt(fila, 1).toString();
-
-        // Eliminar de la tabla
-        eliminar();
-
-        // Eliminar del archivo TXT
-        ArchivoStock archivo = new ArchivoStock();
-        archivo.EliminarProducto(producto, id);
-
-        JOptionPane.showMessageDialog(null, "Producto eliminado correctamente.");
-        
-        } else {
-            
-        JOptionPane.showMessageDialog(null, "Seleccione una fila para eliminar.");
-    }                          
+                                   
         
     }//GEN-LAST:event_btnEliminarMouseClicked
 
@@ -282,10 +269,8 @@ public class TablaProductos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnLimpiar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

@@ -4,7 +4,7 @@ package ferreteriatf;
 import javax.swing.JOptionPane;
 
 
-public class Productos {
+public class Productos { 
     
     String Producto, IdProducto;
 
@@ -19,10 +19,6 @@ public class Productos {
      
     }
     
-    
-    
-    
-    
-    
+      
     
 }

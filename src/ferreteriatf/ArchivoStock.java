@@ -8,7 +8,7 @@ public class ArchivoStock {
     
     public void RegistrarProducto(Productos nuevo){
         try{
-        File f = new File("Pruebadato3.txt");
+        File f = new File("Pruebadato10.txt");
             
         FileWriter fw;//escribir en el archivo
         BufferedWriter bw;//optimizacion
@@ -42,7 +42,7 @@ public class ArchivoStock {
     public void MostrarProducto(){
        try
        {
-        File f = new File("Pruebadato3.txt");
+        File f = new File("Pruebadato10.txt");
         
          if(f.exists())
          {
@@ -67,35 +67,41 @@ public class ArchivoStock {
           }
         }   
       
-    public void EliminarProducto(String producto, String idProducto) {
+    public void EliminarProducto(String productoEliminar, String idEliminar) {
         
-    File archivo = new File("Pruebadato3.txt");
-    StringBuilder contenidoNuevo = new StringBuilder();
-
-    try {
-        
-        BufferedReader reader = new BufferedReader(new FileReader(archivo));
+    File archivoOriginal = new File("Pruebadato10.txt");
+    File archivoTemporal = new File("temp.txt");
+    
+    try (
+        BufferedReader br = new BufferedReader(new FileReader(archivoOriginal));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(archivoTemporal))
+    ) {
         String linea;
-        
-        while ((linea = reader.readLine()) != null) {
-            
-            if (!linea.trim().equals(producto + " " + idProducto)) {
+        while ((linea = br.readLine()) != null) {
+            String[] partes = linea.split(" ");
+            if (partes.length >= 2) {
+                String producto = partes[0];
+                String id = partes[1];
                 
-                contenidoNuevo.append(linea).append(System.lineSeparator());
+                // Si no es el que queremos eliminar, lo escribimos en el archivo temporal
+                if (!producto.equals(productoEliminar) || !id.equals(idEliminar)) {
+                    bw.write(producto + " " + id);
+                    bw.newLine();
+                }
             }
         }
-        reader.close();
-
-        BufferedWriter writer = new BufferedWriter(new FileWriter(archivo));
-        writer.write(contenidoNuevo.toString());
-        writer.close();
-
-        } catch (Exception e) {
-            
-        JOptionPane.showMessageDialog(null, "Error al eliminar el producto del archivo.");
-      }
-    
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error al eliminar del archivo");
+        return;
     }
+
+    // Reemplazar archivo original con el temporal
+    if (archivoOriginal.delete()) {
+        archivoTemporal.renameTo(archivoOriginal);
+    } else {
+        JOptionPane.showMessageDialog(null, "No se pudo actualizar el archivo");
+    }
+}
 
     
 }
